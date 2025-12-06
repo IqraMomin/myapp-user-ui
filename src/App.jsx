@@ -1,34 +1,37 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React ,{useEffect} from 'react'
+ import './App.css'
+import { useSelector,useDispatch } from 'react-redux'
+import UserPage from './components/UserPage';
+import { Route,Redirect,Switch } from 'react-router-dom/cjs/react-router-dom.min';
+import AuthForm from './components/Auth/AuthForm';
+import { fetchAllHotel } from './store/Slices/hotelSlice';
+import { fetchBookings } from './store/Slices/bookingSlice';
+
 
 function App() {
-  const [count, setCount] = useState(0)
+  const isLoggedIn = useSelector(state=>state.auth.isLoggedIn);
+  const dispatch =useDispatch();
+
+  useEffect(()=>{
+    dispatch(fetchAllHotel());
+    dispatch(fetchBookings());
+    //dispatch(fetchCategoryList());
+  },[isLoggedIn,dispatch]);
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <React.Fragment>
+      <Switch>
+      <Route path="/user/auth" exact>
+      {!isLoggedIn ? <AuthForm/>: <Redirect to="/user"/>}    
+      </Route>
+      <Route path="/user">
+        {isLoggedIn ? <UserPage/> : <Redirect to="/user/auth"/>}
+      </Route>      
+      <Route path="/" exact>
+        {!isLoggedIn ? <AuthForm/> : <Redirect to="/user"/>}
+      </Route>
+      </Switch>
+    </React.Fragment>
   )
 }
 
