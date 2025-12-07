@@ -9,11 +9,10 @@ function CategoryList() {
   return (
     <Container fluid>
         <Row>
-            <Col md={12} style={{height:"650px",
+            <Col md={12} style={{height:"660px",
              backgroundImage:`url(${img1})`,
              backgroundSize:"cover",
              }} className='m-0 p-0'>
-
             </Col>
         </Row>
       <Row className="justify-content-center">
@@ -27,8 +26,8 @@ function CategoryList() {
                 style={{
                   height: "180px",
                   objectFit: "cover",
-                  borderTopLeftRadius: "12px",
-                  borderTopRightRadius: "12px",
+                  borderTopLeftRadius: "15px",
+                  borderTopRightRadius: "15px",
                 }}
               />
               <Card.Body>
