@@ -1,15 +1,25 @@
 import React, { useState } from "react";
 import { Button, Form, Nav, Navbar, InputGroup } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
+import { authActions } from "../store/Slices/authSlice";
+import { useDispatch } from "react-redux";
 
 function NavBar({ showCart }) {
   const [search, setSearch] = useState("");
+  const dispatch = useDispatch();
+
+  const logoutHandler = ()=>{
+    dispatch(authActions.logout());
+    localStorage.removeItem("token");
+    localStorage.removeItem("email");
+    history.replace("/user/auth");
+}
 
   return (
     <Navbar
       bg="light"
       className="px-4 shadow-sm d-flex align-items-center"
-      style={{ position: "fixed", top: 0, left: 0, width: "100%" }}
+      style={{ position: "fixed", top: 0, left: 0, width: "100%",zIndex:"999" }}
     >
       {/* LEFT MENU */}
       <Nav className="gap-4">
@@ -44,7 +54,7 @@ function NavBar({ showCart }) {
         </Button>
 
         {/* Logout */}
-        <Button variant="outline-danger">
+        <Button variant="outline-danger" onClick={logoutHandler}>
           <i className="bi bi-box-arrow-right"></i> Logout
         </Button>
       </div>

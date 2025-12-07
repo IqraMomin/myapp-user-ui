@@ -1,53 +1,70 @@
-import React from 'react'
-import { Button, Container, Form, InputGroup ,Row,Col,Card} from 'react-bootstrap'
-import {  useSelector } from 'react-redux'
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
-
+import React, { useState } from 'react'
+import { Button, Container, Form, InputGroup, Row, Col, Card } from 'react-bootstrap'
+import { useSelector } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 
 function HotelList() {
-    const history = useHistory();
-    const viewDetailHandler = (ele)=>{
-        history.push(`/user/explore/${ele.hotelId}`);
+  const history = useHistory();
+  const [searchTerm, setSearchTerm] = useState("");
 
-        
-    }
-    const hotelList = useSelector(state=>state.hotels.hotels);
-    
+  const hotelList = useSelector(state => state.hotels.hotels);
 
-    return (
-        <Container fluid>
-            <Row>
-            <div className="flex-grow-1 d-flex justify-content-center">
-        <InputGroup style={{ width: "500px" }}>
-          <Form.Control placeholder="Search..." />
-          <Button style={{ backgroundColor: "#6f42c1" }}>
-            <i className="bi bi-search"></i>
-          </Button>
-        </InputGroup>
-      </div>
-            </Row>
-            <Row className='d-flex flex-wrap justify-content-start gap-3'>
-            {hotelList.map(ele=>{
-                    return <Col md={3} key={ele.hotelId}>
-                    <Card style={{ width: "18rem"}} className='m-0 p-0 text-center'>
-                            <Card.Body>
+  const viewDetailHandler = (ele) => {
+    history.push(`/user/explore/${ele.hotelId}`);
+  };
+
+  const filteredHotels = hotelList.filter(ele =>
+    ele.title.toLowerCase().includes(searchTerm.toLowerCase())||
+    ele.category.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  return (
+    <Container>
+      <Row className='m-0 p-0'>
+        <div className="flex-grow-1 d-flex justify-content-center mb-5">
+          <InputGroup style={{ width: "500px" }}>
+            <Form.Control
+              placeholder="Search By Hotel name or Category..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+            <Button style={{ backgroundColor: "#6f42c1" }}>
+              <i className="bi bi-search"></i>
+            </Button>
+          </InputGroup>
+        </div>
+      </Row>
+
+      <Row className='d-flex flex-wrap justify-content-start gap-3'>
+        {filteredHotels.length > 0 ? (
+          filteredHotels.map(ele => (
+            <Col key={ele.hotelId} md={3} style={{width:"400px",margin:"auto"}} className='m-0 p-0'>
+                    <Card style={{ width: "100%"}} className='m-0 p-0 text-center'>
+                            <Card.Body className='m-0 p-0'>
+                                <img src={ele.image} width="100%" height="100%"/>
                                 <Card.Title>
                                     {ele.title}
                                 </Card.Title>
-                                <img src={ele.image} width="250px" height="250px"></img>
-                                <div className='d-flex justify-content-between align-items-center px-1 py-2'>
-                                    Rs.{ele.price}/night
-                                    <Button onClick={()=>{viewDetailHandler(ele)}} style={{backgroundColor:"#6f42c1",border:"none"}}>View Details</Button>
-                                </div>
+                                <div className="booking-item">
+                                <p>Price:{ele.price}/night</p>
+                                <p>Address:{ele.address}</p>
+                                <p>Pincode:{ele.pincode}</p>
+                                <p>City:{ele.city}</p>
+                                <p>Category:{ele.category}</p>
+                                 </div>
+                                                               
+                                
                             </Card.Body>
+                            <Button variant='outline-dark' onClick={()=>{viewDetailHandler(ele)}}>View Details</Button>
                         </Card>
                     </Col>
-                    
-                    
-                })}
-            </Row>
-        </Container>
-    )
+          ))
+        ) : (
+          <p className="text-center mt-5">No hotels found.</p>
+        )}
+      </Row>
+    </Container>
+  );
 }
 
-export default HotelList
+export default HotelList;

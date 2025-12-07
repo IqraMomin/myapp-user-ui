@@ -1,0 +1,40 @@
+.cart-box {
+    position: fixed;
+    top: 70px;
+    right: 10px;
+    width: 400px;
+    height: 80vh;              /* IMPORTANT */
+    background: white;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    z-index: 2000;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .cart-content {
+    flex-grow: 1;              /* Take all remaining space */
+    overflow-y: auto;          /* ⭐ Enables scroll */
+    padding-right: 8px;       
+  }
+  
+  /* Scrollbar for cart-content */
+.cart-content::-webkit-scrollbar {
+    width: 6px;                  /* scrollbar width */
+  }
+  
+  .cart-content::-webkit-scrollbar-track {
+    background: #f0f0f0;         /* track color */
+    border-radius: 10px;
+  }
+  
+  .cart-content::-webkit-scrollbar-thumb {
+    background: gray;         /* scrollbar color (purple!) */
+    border-radius: 10px;
+  }
+  
+  .cart-content::-webkit-scrollbar-thumb:hover {
+    background: rgb(98, 98, 98);         /* darker on hover */
+  }
+  

@@ -25,10 +25,12 @@ function HotelDetails() {
     setCheckOut(e.target.value);
   }
   const hotelData = hotels.find(ele => String(ele.hotelId) === String(hotelId));
+  const today = new Date().toISOString().split("T")[0]; 
 
   
   const formSubmitHandler = (e)=>{
     e.preventDefault();
+    const night = (new Date(checkOut)-new Date(checkIn))/(1000 * 60 * 60 * 24)
     const bookingData = {
         title:hotelData.title,
         price:hotelData.price,
@@ -37,6 +39,8 @@ function HotelDetails() {
         city:hotelData.city,
         image:hotelData.image,
         guest,checkIn,checkOut,
+        night,
+        total:night*hotelData.price,
         email,
         status:"pending"
     }
@@ -97,11 +101,11 @@ function HotelDetails() {
                     </Form.Group>
                     <Form.Group controlId='checkIn'>
                         <Form.Label>Check-In</Form.Label>
-                        <Form.Control style={{width:"300px"}} type='date' onChange={checkInHandler} value={checkIn}/>
+                        <Form.Control style={{width:"300px"}} type='date' min={today} onChange={checkInHandler} value={checkIn}/>
                     </Form.Group>
                     <Form.Group controlId='checkOut'>
                         <Form.Label>Check-Out</Form.Label>
-                        <Form.Control style={{width:"300px"}} type='date' onChange={checkOutHandler} value={checkOut}/>
+                        <Form.Control style={{width:"300px"}} type='date'min={today} onChange={checkOutHandler} value={checkOut}/>
                     </Form.Group>
                     </div>
                     <Button type='submit'>Book Now</Button>

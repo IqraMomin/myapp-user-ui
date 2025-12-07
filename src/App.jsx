@@ -6,6 +6,8 @@ import { Route,Redirect,Switch } from 'react-router-dom/cjs/react-router-dom.min
 import AuthForm from './components/Auth/AuthForm';
 import { fetchAllHotel } from './store/Slices/hotelSlice';
 import { fetchBookings } from './store/Slices/bookingSlice';
+import { fetchCategoryList } from './store/Slices/categorySlice';
+import { fetchCart } from './store/Slices/cartSlice';
 
 
 function App() {
@@ -15,7 +17,8 @@ function App() {
   useEffect(()=>{
     dispatch(fetchAllHotel());
     dispatch(fetchBookings());
-    //dispatch(fetchCategoryList());
+    dispatch(fetchCategoryList());
+    dispatch(fetchCart());
   },[isLoggedIn,dispatch]);
 
   return (
