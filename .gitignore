@@ -6,6 +6,7 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
+src/assets/bg_hotel.jpg
 
 node_modules
 dist
