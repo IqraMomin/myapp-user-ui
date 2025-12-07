@@ -1,12 +1,16 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { ListGroup, Button ,Badge} from 'react-bootstrap';
 import "./Cart.css"
+import { deleteFromCart } from '../../store/Slices/cartSlice';
 
 function Cart({ onClose }) {
     const cartList = useSelector(state => state.cart.cart);
     const cartTotal = useSelector(state => state.cart.totalAmount);
-    console.log(cartList);
+    const dispatch = useDispatch();
+    const deleteHandler = (ele)=>{
+        dispatch(deleteFromCart(ele.id));
+    }
 
     return (
         <div className='cart-box'>
@@ -36,7 +40,7 @@ function Cart({ onClose }) {
                                 <p>CheckOut:{ele.checkOut}</p>
                                 <p>SubTotal:{ele.total}</p>
                                 <div className='d-flex justify-content-center'>
-                                <Button>Delete</Button>
+                                <Button onClick={()=>{deleteHandler(ele)}}>Delete</Button>
                             </div>
                             </div>
                             

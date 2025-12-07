@@ -49,4 +49,17 @@ export const fetchCart = createAsyncThunk(
         }
     }
 )
+
+
+export const deleteFromCart = createAsyncThunk(
+    "cart/deleteFromCart",async(id,thunkAPI)=>{
+        try{
+            const email = thunkAPI.getState().auth.email;
+            const safeEmail = email.replace(/[.]/g,"_");
+             await axios.get(`https://travel-booking-website-11848-default-rtdb.firebaseio.com/cart/${safeEmail}/${id}.json`);
+            }catch(err){
+            return thunkAPI.rejectWithValue("Failed to remove from cart");
+        }
+    }
+)
 export default cartSlice.reducer
